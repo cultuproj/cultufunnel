@@ -13,7 +13,7 @@ const testimonials = [
     id: 2,
     quote: "The transparency is what drew me in. You're not just seeing a final result, you're witnessing the entire, messy, beautiful process of creation.",
     name: "Kaelen Moore",
-    title: "Participant",
+    title: "Fashion exhibist",
     // Placeholder image path.
     imagePath: "https://i.pravatar.cc/150?u=kaelen"
   }
