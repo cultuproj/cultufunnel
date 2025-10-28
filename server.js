@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import { Pool } from "pg";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
+
 
 dotenv.config();
 
@@ -16,6 +18,14 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
 
 // 🧠 Cek koneksi dan buat tabel jika belum ada
 async function initDB() {

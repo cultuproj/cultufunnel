@@ -1,33 +1,41 @@
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const SignUpSection: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Ambil URL dari .env atau fallback ke origin (auto)
+  const API_URL =
+    import.meta.env.VITE_API_URL ||
+    `${window.location.protocol}//${window.location.hostname}:3001`;
+
+  console.log("🌐 Using API URL:", API_URL);
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    const res = await fetch("http://localhost:3001/api/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email }),
-    });
+    e.preventDefault();
+    setLoading(true);
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Something went wrong");
+    try {
+      const res = await fetch(`${API_URL}/api/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email }),
+      });
 
-    alert("Thank you for joining the observation.");
-    setName("");
-    setEmail("");
-  } catch (err) {
-    console.error(err);
-    alert("Failed to submit. Please try again.");
-  }
-};
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
 
-
-
+      alert("Thank you for joining the observation.");
+      setName("");
+      setEmail("");
+    } catch (err) {
+      console.error("❌ Submission error:", err);
+      alert("Failed to submit. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="py-20 md:py-32 bg-[#000000] text-[#FFFFFF]">
@@ -60,12 +68,21 @@ const SignUpSection: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="mt-6 w-full px-10 py-4 font-body font-medium text-lg bg-[#C7A76B] text-[#000000] border-2 border-[#C7A76B] rounded-full hover:bg-transparent hover:text-[#C7A76B] transition-colors duration-300 ease-in-out"
+            disabled={loading}
+            className={`mt-6 w-full px-10 py-4 font-body font-medium text-lg border-2 rounded-full transition-colors duration-300 ease-in-out
+              ${
+                loading
+                  ? "bg-gray-500 border-gray-500 text-[#000000] cursor-not-allowed"
+                  : "bg-[#C7A76B] border-[#C7A76B] text-[#000000] hover:bg-transparent hover:text-[#C7A76B]"
+              }`}
           >
-            Witness
+            {loading ? "Processing..." : "Witness"}
           </button>
         </form>
-        <p className="mt-6 text-sm text-[#D4C6B0]/60">No spam. Only experiments.</p>
+
+        <p className="mt-6 text-sm text-[#D4C6B0]/60">
+          No spam. Only experiments.
+        </p>
       </div>
     </section>
   );

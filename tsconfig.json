@@ -11,9 +11,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "types": ["node"],
     "allowJs": true,
     "noEmit": true,
+    "types": ["node", "vite/client"],
     "paths": {
       "@/*": ["./*"]
     }
