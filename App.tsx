@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import ContextSection from './components/ContextSection';
+import TestimonialsSection from './components/TestimonialsSection';
 import ProgressSection from './components/ProgressSection';
 import FashionCarousel from './components/FashionCarousel';
 import SignUpSection from './components/SignUpSection';
@@ -24,6 +25,14 @@ const App: React.FC = () => {
 
         <AnimatedSection>
           <ContextSection />
+        </AnimatedSection>
+        
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="w-full h-px bg-[#C7A76B] my-16 md:my-24"></div>
+        </div>
+
+        <AnimatedSection>
+          <TestimonialsSection />
         </AnimatedSection>
         
         <div className="max-w-4xl mx-auto px-6">

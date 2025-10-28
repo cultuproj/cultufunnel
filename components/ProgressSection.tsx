@@ -1,18 +1,37 @@
-
 import React from 'react';
+import Counter from './Counter';
 
 const progressData = {
-  communityCount: 472,
+  communityCount: 812,
   timeline: [
     { name: 'Phase 1: Genesis', status: 'complete' },
     { name: 'Phase 2: Ikigai', status: 'active' },
     { name: 'Phase 3: Unfolding', status: 'upcoming' },
+    { name: 'Phase 4: Synthesis', status: 'upcoming' },
   ],
   logs: [
-    { date: 'Week 4', entry: 'The experiment shifted—participant thoughts are shaping the next phase.' },
-    { date: 'Week 2', entry: 'Initial myth framework established. The core narrative is taking form.' },
-    { date: 'Week 1', entry: 'The first observers have joined. The lab is open.' },
+    { date: 'S.01_W.04', entry: 'The experiment shifted—participant thoughts are shaping the next phase.' },
+    { date: 'S.01_W.02', entry: 'Initial myth framework established. The core narrative is taking form.' },
+    { date: 'S.01_W.01', entry: 'The first observers have joined. The lab is open.' },
   ]
+};
+
+const TimelineIcon: React.FC<{ status: string }> = ({ status }) => {
+  if (status === 'complete') {
+    return (
+      <div className="w-6 h-6 rounded-full bg-[#C7A76B] flex items-center justify-center">
+        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+    );
+  }
+  if (status === 'active') {
+    return (
+      <div className="w-6 h-6 rounded-full bg-transparent border-2 border-[#C7A76B] flex items-center justify-center">
+        <div className="w-3 h-3 rounded-full bg-[#C7A76B] animate-pulse"></div>
+      </div>
+    );
+  }
+  return <div className="w-6 h-6 rounded-full bg-transparent border-2 border-black/30"></div>;
 };
 
 const ProgressSection: React.FC = () => {
@@ -24,33 +43,43 @@ const ProgressSection: React.FC = () => {
         </h2>
         <p className="text-center mt-4 text-lg text-[#000000]/70">Everything here is in progress. We don't polish; we reveal.</p>
         
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          <div className="bg-[#FFFFFF]/50 p-8 rounded-lg border border-[#C7A76B]/50 text-center">
+          <div className="bg-white/70 p-8 rounded-lg border border-[#C7A76B]/50 text-center shadow-lg transform hover:scale-105 transition-transform duration-300">
             <h3 className="font-heading text-2xl text-[#000000]">Participants</h3>
-            <p className="text-6xl font-bold text-[#000000] mt-4">{progressData.communityCount}</p>
+            <div className="text-6xl font-bold text-[#000000] mt-4">
+              <Counter end={progressData.communityCount} duration={2000} />
+            </div>
             <p className="text-sm text-[#000000]/70 mt-2">Observing the unfolding.</p>
           </div>
 
-          <div className="bg-[#FFFFFF]/50 p-8 rounded-lg border border-[#C7A76B]/50">
+          <div className="bg-white/70 p-8 rounded-lg border border-[#C7A76B]/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
             <h3 className="font-heading text-2xl text-[#000000] text-center mb-6">Season Timeline</h3>
-            <div className="space-y-4">
-              {progressData.timeline.map((item, index) => (
-                <div key={index} className="flex items-center">
-                  <div className={`w-5 h-5 rounded-full mr-4 flex-shrink-0 border-2 ${item.status === 'complete' ? 'bg-[#C7A76B] border-[#C7A76B]' : item.status === 'active' ? 'bg-[#C7A76B] border-[#C7A76B] animate-pulse' : 'border-[#000000]/50'}`}></div>
-                  <span className={`text-lg ${item.status === 'upcoming' ? 'text-[#000000]/60' : 'text-[#000000]'}`}>{item.name}</span>
-                </div>
-              ))}
+            <div className="relative pl-4">
+              <div className="absolute top-0 bottom-0 left-7 w-0.5 bg-black/10" aria-hidden="true"></div>
+              <ul className="space-y-6">
+                {progressData.timeline.map((item, index) => (
+                  <li key={index} className="flex items-center">
+                    <div className="z-10 mr-4 flex-shrink-0">
+                      <TimelineIcon status={item.status} />
+                    </div>
+                    <span className={`text-lg ${item.status === 'upcoming' ? 'text-black/50' : 'text-black'}`}>{item.name}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
           
-          <div className="bg-[#FFFFFF]/50 p-8 rounded-lg border border-[#C7A76B]/50">
-             <h3 className="font-heading text-2xl text-[#000000] text-center mb-6">Recent Entries</h3>
-             <div className="space-y-4">
+          <div className="bg-white/70 p-8 rounded-lg border border-[#C7A76B]/50 shadow-lg transform hover:scale-105 transition-transform duration-300">
+             <h3 className="font-heading text-2xl text-[#000000] text-center mb-6">Field Notes</h3>
+             <div className="space-y-5">
                {progressData.logs.slice(0, 3).map((log, index) => (
-                 <div key={index} className="border-l-2 border-[#C7A76B] pl-4">
-                   <p className="font-bold text-sm text-[#000000]">{log.date}</p>
-                   <p className="text-sm text-[#000000]/80">{log.entry}</p>
+                 <div key={index} className="group cursor-pointer">
+                    <div className="flex items-start gap-4">
+                        <p className="font-mono text-xs text-black/60 pt-1 tracking-wider group-hover:text-[#C7A76B] transition-colors">{log.date}</p>
+                        <div className="w-px h-6 bg-black/10"></div>
+                        <p className="text-sm text-black/80">{log.entry}</p>
+                    </div>
                  </div>
                ))}
              </div>
