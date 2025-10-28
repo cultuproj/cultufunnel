@@ -5,14 +5,29 @@ const SignUpSection: React.FC = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In a real app, you would handle form submission here.
-    console.log({ name, email });
-    alert('Thank you for joining the observation.');
-    setName('');
-    setEmail('');
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  try {
+    const res = await fetch("http://localhost:3001/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Something went wrong");
+
+    alert("Thank you for joining the observation.");
+    setName("");
+    setEmail("");
+  } catch (err) {
+    console.error(err);
+    alert("Failed to submit. Please try again.");
+  }
+};
+
+
+
 
   return (
     <section className="py-20 md:py-32 bg-[#000000] text-[#FFFFFF]">
