@@ -6,8 +6,13 @@ const ContextSection: React.FC = () => {
     <section className="py-16 md:py-24 bg-[#FFFFFF]">
       <div className="max-w-3xl mx-auto px-6 text-center">
         <h2 className="font-heading text-4xl md:text-5xl font-bold text-[#000000]">
-          The Ikigai Season
-        </h2>
+  <img
+    src="/assets/ikigai logo.png"
+    alt="The Ikigai Season"
+    className="inline-block w-[280px] md:w-[360px]"
+  />
+</h2>
+
         <div className="mt-8 space-y-6 text-lg text-[#000000]/80 leading-relaxed">
           <p>
             Cultu is not a brand—it’s a living experiment where imagination becomes collective proof. We explore how myth, community, and radical transparency can shape new realities of value.
